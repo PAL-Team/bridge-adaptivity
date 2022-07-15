@@ -1,5 +1,6 @@
 # Bridge for Adaptivity
 Hello!!
+This is test
 [![Build Status](https://travis-ci.org/harvard-vpal/bridge-adaptivity.svg?branch=master)](https://travis-ci.org/harvard-vpal/bridge-adaptivity)
 [![Maintainability](https://api.codeclimate.com/v1/badges/41c39f3bbc4b6afd9a85/maintainability)](https://codeclimate.com/github/harvard-vpal/bridge-adaptivity/maintainability)
 

@@ -24,9 +24,9 @@ services:
     volumes:
       - .:/bridge_adaptivity
     ports:
-      - "8000:8000"
+      - "8004:8004"
     healthcheck:
-      test: ['CMD-SHELL', 'nc -z 0.0.0.0 8000']
+      test: ['CMD-SHELL', 'nc -z 0.0.0.0 8004']
       interval: 5s
       timeout: 10s
       retries: 5

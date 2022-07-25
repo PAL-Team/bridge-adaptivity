@@ -446,6 +446,7 @@ class Activity(OrderedModel):
     points = models.FloatField(blank=True, default=1)
     lti_content_source = models.ForeignKey(LtiContentSource, null=True, on_delete=models.CASCADE)
     source_launch_url = models.URLField(max_length=255, null=True)
+    source_launch_url_test = models.URLField(max_length=255, null=True)
     source_name = fields.CharField(max_length=255, blank=True, null=True)
     # NOTE(wowkalucky): extra field 'order' is available (inherited from OrderedModel)
 
@@ -464,7 +465,7 @@ class Activity(OrderedModel):
 
     class Meta:
         verbose_name_plural = 'Activities'
-        unique_together = ("source_launch_url", "collection")
+        unique_together = ("source_launch_url_test","source_launch_url", "collection")
         ordering = 'atype', 'order'
 
     def __str__(self):

@@ -52,6 +52,7 @@ def create_lti_launch_params(request, sequence_item_id, consumer_prams):
 
         source_name = activity.source_name
         source_lti_url = activity.source_launch_url
+        source_lti_url_test = activity.source_launch_url_test
         lis_outcome_service_url = urllib.parse.urljoin(settings.BRIDGE_HOST, reverse('module:sequence-item-grade'))
         consumer_prams['params'].update({
             'user_id': sequence_item.user_id_for_consumer,
@@ -72,7 +73,12 @@ def create_lti_launch_params(request, sequence_item_id, consumer_prams):
         if source_lti_url is not None:
             # NOTE(wowkalucky): Django converts plus sign to space
             source_lti_url = request.GET.get('source_lti_url').replace(' ', '+')
-    return source_name, source_lti_url, consumer_prams
+        
+        if source_lti_url_test is not None:
+            # NOTE(wowkalucky): Django converts plus sign to space
+            source_lti_url_test = request.GET.get('source_lti_url_test').replace(' ', '+')
+        
+    return source_name, source_lti_url, consumer_prams, source_lti_url_test
 
 
 def source_preview(request):

@@ -76,6 +76,7 @@
                 data-activity-name="{{ activity.name }}"
                 data-id="{{ activity.id }}"
                 data-activity-source-launch-url="{{ activity.source_launch_url }}"
+                data-activity-source-launch-url-test="{{ activity.source_launch_url_test }}"
                 data-content_source_id="{{ activity.lti_content_source.id }}"
                 data-source-active="{% if activity.lti_content_source.is_active %}true{% endif %}"
                 {% if not request.session.read_only_data %}

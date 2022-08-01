@@ -50,6 +50,7 @@ def lti_launch(request, collection_order_slug=None, unique_marker=''):
     - The launch contains all the required parameters
     - The launch data is correctly signed using a known client key/secret pair
     """
+    log.debug(request)
     request_post = request.POST
     tool_provider = get_tool_provider_for_lti(request)
 

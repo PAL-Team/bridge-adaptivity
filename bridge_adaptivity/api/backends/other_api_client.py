@@ -13,41 +13,39 @@ from api.backends.base_api_client import BaseApiClient
 log = logging.getLogger(__name__)
 
 
-class OpenEdxApiClient(BaseApiClient, EdxRestApiClient):
-    """API client to interact with OpenEdx Course API."""
+class OtherApiClient(BaseApiClient, EdxRestApiClient):
+    """API client to interact with other content course rou."""
 
-    TOKEN_URL = "/oauth2/access_token"
+    # TOKEN_URL = "/oauth2/access_token"
 
     def __init__(self, content_source):
-        BaseApiClient.__init__(self, content_source=content_source)
+        #  Removed this because of the BaseAPIClient get the content blocks from source to view the in bridge
+        #TODO: Modify this according the other platform requirments
+        # BaseApiClient.__init__(self, content_source=content_source)
+        self.content_source = content_source
         log.debug("Creating new OpenEdx API client...")
+        log.debug(self.content_source.host_url)
+        # Currently we are removing Authentication for OtherAPIClient Prototype 
+        # token_cache_key = f'api:{self.content_source.o_auth_client.client_id}:token'
 
-        token_cache_key = f'api:{self.content_source.o_auth_client.client_id}:token'
+        #access_token = cache.get(token_cache_key)
+        # if not access_token:
+        #     access_token, expires_at = self.get_oauth_access_token()
+        #     ttl = expires_at - datetime.now()
+        #     cache.set(token_cache_key, access_token, ttl.seconds)
 
-        access_token = cache.get(token_cache_key)
-        if not access_token:
-            access_token, expires_at = self.get_oauth_access_token()
-            ttl = expires_at - datetime.now()
-            cache.set(token_cache_key, access_token, ttl.seconds)
-
-        EdxRestApiClient.__init__(self, self.url, jwt=access_token)
+        # EdxRestApiClient.__init__(self, self.url, jwt=access_token)
 
     @property
     def url(self):
         return f'{self.content_source.host_url}/api/courses/v1/'
 
     def get_oauth_access_token(self):
-        """
-        Request OpenEdx API OAuth2 token.
-
-        Token type: JWT (reference: https://jwt.io/).
-        :return: access_token, expires_at
-        """
-        # url = "{host_url}{token_url}".format(
-        #     host_url=self.content_source.host_url,
-        #     token_url=self.TOKEN_URL
-        # )
-        # Modifing the URl token to bypass the authentication process
+        url = "{host_url}{token_url}".format(
+            host_url=self.content_source.host_url,
+            token_url=self.TOKEN_URL
+        )
+        # # Modifing the URl token to overcome the authentication process
         # url = "{host_url}".format(
         #      host_url=self.content_source.host_url,
         #     #  token_url=self.TOKEN_URL

@@ -37,3 +37,7 @@ class BridgeLtiModelTest(BridgeTestCase):
             **base_args,
             source_type=LtiContentSource.BASE_SOURCE,
         ).clean()
+        LtiContentSource(
+            **base_args,
+            source_type=LtiContentSource.Other,
+        ).clean()

@@ -47,11 +47,13 @@ class LtiContentSource(models.Model):
     BASE_SOURCE = "base"
     EDX_SOURCE = "edx"
     DART = "dart"
+    Other = "other"
 
     SOURCE_TYPE_CHOICES = (
         (BASE_SOURCE, "Base Source"),
         (EDX_SOURCE, "edX Source"),
         (DART, "Dart Source"),
+        (Other, "Other Source"),
     )
 
     name = fields.CharField(max_length=255, blank=True, null=True, unique=True)
@@ -61,7 +63,7 @@ class LtiContentSource(models.Model):
     host_url = models.URLField(max_length=255, null=True)
     o_auth_client = models.ForeignKey('api.OAuthClient', default=None, null=True, blank=True, on_delete=models.CASCADE)
     is_active = fields.BooleanField(default=False, help_text=_("Are its sources available for Instructors?"))
-    source_type = models.CharField(choices=SOURCE_TYPE_CHOICES, default=EDX_SOURCE, max_length=100)
+    source_type = models.CharField(choices=SOURCE_TYPE_CHOICES, default=Other, max_length=100)
     available_in_groups = models.ManyToManyField(Group, related_name='group_source', verbose_name='source in groups')
 
     class Meta:

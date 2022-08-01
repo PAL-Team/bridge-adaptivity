@@ -22,7 +22,7 @@
  {% include "module/modals/toast.html" with id='preview-warning' message='There is no preview for the empty group' %}
  {% include "module/modals/no_available_activity.html" with id='not-available-for-student'%}
 
-
+<!-- In this part we have a preview flow of this  -->
       <div class="col-md-8">
         <h3 class="detail-toolpanel">
 
@@ -48,6 +48,7 @@
                     </a>
                 {% endif %}
             {% endif %}
+            <!-- Preview component -->
             <a
                     class="pull-right"
                     id="collection-preview-button"
@@ -124,6 +125,7 @@
                       {% endif %} pull-right" data-id="{{ activity.id }}">
                         {% bootstrap_button "" size='sm' icon='trash' %}
                       </a>
+                      <!-- options of preview triggerring point -->
                       <a class="pull-right">
                       {% bootstrap_button "" size='sm' icon='edit' extra_classes='modal_launcher' value=activity_edit %}
                       </a>

@@ -7,6 +7,7 @@ from slumber.exceptions import HttpClientError, HttpNotFoundError
 from api.backends.base_api_client import BaseApiClient
 from api.backends.dart_api_client import DartApiClient
 from api.backends.edx_api_client import OpenEdxApiClient
+from api.backends.other_api_client import OtherApiClient
 from bridge_lti.models import LtiContentSource
 
 log = logging.getLogger(__name__)
@@ -20,7 +21,11 @@ def api_client_factory(content_source: LtiContentSource) -> BaseApiClient:
         LtiContentSource.EDX_SOURCE: OpenEdxApiClient,
         LtiContentSource.DART: DartApiClient,
         LtiContentSource.BASE_SOURCE: BaseApiClient,
+        LtiContentSource.Other: OtherApiClient,
     }
+    log.debug(content_source.source_type)
+    if content_source.source_type == "Other":
+        return "Other"
     return api_clients[content_source.source_type](content_source)
 
 
@@ -60,12 +65,13 @@ def get_available_blocks(request, source_id, course_id=''):
 
     # Get API client instance:
     api = api_client_factory(content_source=content_source)
-    try:
+    if api != "Other":
+        try:
         # filter function will be applied to api response
-        all_blocks.extend(
-            apply_data_filter(
-                api.get_course_blocks(course_id),
-                filters=[
+            all_blocks.extend(
+                apply_data_filter(
+                    api.get_course_blocks(course_id),
+                    filters=[
                     'id',
                     'block_id',
                     'display_name',
@@ -73,15 +79,15 @@ def get_available_blocks(request, source_id, course_id=''):
                     'type',
                     'content_source_id',
                     'visible_to_staff_only',
-                ],
-                context_id=course_id,
-                content_source_id=content_source.id
+                    ],
+                    context_id=course_id,
+                    content_source_id=content_source.id
+                )
             )
-        )
-    except HttpNotFoundError:
-        raise HttpClientError(_("Requested course not found. Check `course_id` url encoding."))
-    except HttpClientError as exc:
-        raise HttpClientError(_("Not valid query: {}").format(exc.message))
+        except HttpNotFoundError:
+            raise HttpClientError(_("Requested course not found. Check `course_id` url encoding."))
+        except HttpClientError as exc:
+            raise HttpClientError(_("Not valid query: {}").format(exc.message))
 
     return all_blocks
 
@@ -102,13 +108,14 @@ def get_available_courses(request, source_ids=None):
         # Get API client instance:
         try:
             api = api_client_factory(content_source=content_source)
-            all_courses.extend(
-                apply_data_filter(
-                    api.get_provider_courses(),
-                    filters=['id', 'course_id', 'name', 'org', 'content_source_id'],
-                    content_source_id=content_source.id
+            if api != "Other":
+                all_courses.extend(
+                    apply_data_filter(
+                        api.get_provider_courses(),
+                        filters=['id', 'course_id', 'name', 'org', 'content_source_id'],
+                        content_source_id=content_source.id
+                    )
                 )
-            )
         except HttpClientError as exc:
             errors[str(exc)].append(content_source.name)
 
@@ -164,6 +171,7 @@ def get_content_providers(request, source_ids=None):
             q_kw['id'] = source_ids
     content_source = LtiContentSource.objects.filter(**q_kw)
     log.debug('Picked content Source(s){}: {}'.format(
-        " with content_source_id={}".format(source_ids),
+        " with content_source_id={}".format(source_ids), #Issue Of Source_Id
         ", ".join(content_source.values_list('name', flat=True))))
+    log.debug(content_source.values_list('name', flat=True)[0])
     return content_source

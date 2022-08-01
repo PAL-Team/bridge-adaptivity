@@ -466,7 +466,6 @@ class Activity(OrderedModel):
         verbose_name_plural = 'Activities'
         unique_together = ("source_launch_url", "collection")
         ordering = 'atype', 'order'
-
     def __str__(self):
         return '<Activity: {}>'.format(self.name)
 

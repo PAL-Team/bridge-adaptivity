@@ -18,12 +18,18 @@
             </button>
         {% endfor %}
     {% endbuttons %}
+    <!-- need to modify this preview ifram based on the activity.url -->
+    <!-- {% for activity in activities %} -->
+    <!-- id="assessment-content" -->
     <iframe id="assessment-content"
-            style="width:100%;height:640px;%;display:block;border:0"
-            src="#"
-            class="ltiLaunchFrame"
-            allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
-            sandbox="allow-same-origin allow-forms allow-scripts allow-popups allow-top-navigation"></iframe>
+        style="width:100%;height:640px;%;display:block;border:0"
+        src= ""
+        class="ltiLaunchFrame"
+        allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
+        sandbox="allow-same-origin allow-forms allow-scripts allow-popups allow-top-navigation">
+    </iframe>
+    <!-- {% endfor %} -->
+    
 
 
 {% endblock bootstrap3_content %}

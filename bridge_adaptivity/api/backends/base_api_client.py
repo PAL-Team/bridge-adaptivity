@@ -47,3 +47,8 @@ class BaseApiClient(slumber.API):
             return resource.get('results')
         except ConnectionError:
             raise slumber.exceptions.HttpClientError(_("Incorrect URL."))
+        except AttributeError:
+            # This can occur when the list of courses is fetched. If the response
+            # from the page is successful, but contains data in an unexpected format,
+            # the call to resource.get() will fail.
+            raise slumber.exceptions.ImproperlyConfigured(_("Unexpected response from API."))

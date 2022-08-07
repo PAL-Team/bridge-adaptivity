@@ -65,7 +65,7 @@ def get_available_blocks(request, source_id, course_id=''):
 
     # Get API client instance:
     api = api_client_factory(content_source=content_source)
-    if api != "Other":
+    if not isinstance(api, OtherApiClient):
         try:
         # filter function will be applied to api response
             all_blocks.extend(

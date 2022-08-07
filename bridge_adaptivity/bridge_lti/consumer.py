@@ -100,7 +100,7 @@ def source_preview(request):
             # Required parameters
             'lti_message_type': 'basic-lti-launch-request',
             'lti_version': 'LTI-1p0',
-            'resource_link_id': 'reaource_link_id',
+            'resource_link_id': 'resource_link_id',
             # Recommended parameters
             'user_id': 'bridge_user',
             'roles': 'Learner',

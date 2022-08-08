@@ -100,7 +100,7 @@ def source_preview(request):
             # Required parameters
             'lti_message_type': 'basic-lti-launch-request',
             'lti_version': 'LTI-1p0',
-            'resource_link_id': 'reaource_link_id',
+            'resource_link_id': 'resource_link_id',
             # Recommended parameters
             'user_id': 'bridge_user',
             'roles': 'Learner',
@@ -136,6 +136,8 @@ def source_preview(request):
 
         consumer_prams['consumer_key'] = content_provider.provider_key
         consumer_prams['consumer_secret'] = content_provider.provider_secret
+    else:
+        return render(request, 'bridge_lti/stub.html')
 
     source_name, source_lti_url, consumer_prams = create_lti_launch_params(request, sequence_item_id, consumer_prams)
     

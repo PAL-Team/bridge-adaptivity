@@ -21,8 +21,7 @@ class OtherApiClient(BaseApiClient, EdxRestApiClient):
     def __init__(self, content_source):
         #  Removed this because of the BaseAPIClient get the content blocks from source to view the in bridge
         #TODO: Modify this according the other platform requirments
-        # BaseApiClient.__init__(self, content_source=content_source)
-        self.content_source = content_source
+        BaseApiClient.__init__(self, content_source=content_source)
         log.debug("Creating new OpenEdx API client...")
         log.debug(self.content_source.host_url)
         # Currently we are removing Authentication for OtherAPIClient Prototype 

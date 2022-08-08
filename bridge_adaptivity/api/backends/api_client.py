@@ -2,7 +2,7 @@ from collections import defaultdict
 import logging
 
 from django.utils.translation import ugettext as _
-from slumber.exceptions import HttpClientError, HttpNotFoundError
+from slumber.exceptions import HttpClientError, HttpNotFoundError, ImproperlyConfigured
 
 from api.backends.base_api_client import BaseApiClient
 from api.backends.dart_api_client import DartApiClient
@@ -65,7 +65,7 @@ def get_available_blocks(request, source_id, course_id=''):
 
     # Get API client instance:
     api = api_client_factory(content_source=content_source)
-    if api != "Other":
+    if not isinstance(api, OtherApiClient):
         try:
         # filter function will be applied to api response
             all_blocks.extend(
@@ -108,15 +108,14 @@ def get_available_courses(request, source_ids=None):
         # Get API client instance:
         try:
             api = api_client_factory(content_source=content_source)
-            if api != "Other":
-                all_courses.extend(
-                    apply_data_filter(
-                        api.get_provider_courses(),
-                        filters=['id', 'course_id', 'name', 'org', 'content_source_id'],
-                        content_source_id=content_source.id
-                    )
+            all_courses.extend(
+                apply_data_filter(
+                    api.get_provider_courses(),
+                    filters=['id', 'course_id', 'name', 'org', 'content_source_id'],
+                    content_source_id=content_source.id
                 )
-        except HttpClientError as exc:
+            )
+        except (HttpClientError, ImproperlyConfigured) as exc:
             errors[str(exc)].append(content_source.name)
 
     # Convert defaultdict to dict, because django template doesn't work with defaultdict

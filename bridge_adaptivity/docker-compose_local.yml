@@ -7,7 +7,7 @@ services:
   bridge:
     image: bridge_adaptivity:local
     ports:
-      - "8008:8000"
+      - "8008:8004"
     stdin_open: true
     tty: true
 

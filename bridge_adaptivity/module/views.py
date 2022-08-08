@@ -794,24 +794,64 @@ def update_students_grades(request, collection_order_slug):
 
 
 def preview_collection(request, slug):
-    acitvities = [
+    activities = [
         {
+            # 'url': (
+            #     f'{reverse("lti:source-preview")}?source_id={a.id}&source_name={urllib.parse.quote_plus(a.name)}'
+            #     f'&source_lti_url={a.source_launch_url}&content_source_id={a.lti_content_source_id}'
+            # ),
+            #Added for others type of modules
             'url': (
-                f'{reverse("lti:source-preview")}?source_id={a.id}&source_name={urllib.parse.quote_plus(a.name)}'
-                f'&source_lti_url={a.source_launch_url}&content_source_id={a.lti_content_source_id}'
+                # f'{reverse("lti:source-preview")}?source_id={a.id}&source_name={urllib.parse.quote_plus(a.name)}'
+                # f'&
+                # lauch url for the activity.
+                {a.source_launch_url}
             ),
             'pos': pos,
         }
         for pos, a in enumerate(get_list_or_404(Activity, collection__slug=slug), start=1)
     ]
+    log.debug(activities)
     return render(
         request,
         template_name="module/sequence_preview.html",
         context={
-            'activities': acitvities,
+            'activities': activities,
             'back_url': (
                 f"{reverse('module:collection-detail', kwargs={'slug': slug})}"
                 f"?back_url={request.GET.get('back_url')}"
+                # request.GET.get('back_url')
+            )
+        }
+    )
+
+def preview_collection_other(request, slug):
+    activities = [
+        {
+            # 'url': (
+            #     f'{reverse("lti:source-preview")}?source_id={a.id}&source_name={urllib.parse.quote_plus(a.name)}'
+            #     f'&source_lti_url={a.source_launch_url}&content_source_id={a.lti_content_source_id}'
+            # ),
+            #Added for others type of modules
+            'url': (
+                # f'{reverse("lti:source-preview")}?source_id={a.id}&source_name={urllib.parse.quote_plus(a.name)}'
+                # f'&
+                {a.source_launch_url}
+            ),
+            'pos': pos,
+        }
+        for pos, a in enumerate(get_list_or_404(Activity, collection__slug=slug), start=1)
+    ]
+    log.debug(activities)
+    return render(
+        request,
+        template_name="module/sequence_preview.html",
+        context={
+            'activities': activities,
+            'back_url': (
+                f"{reverse('module:collection-detail', kwargs={'slug': slug})}"
+                f"?back_url={request.GET.get('back_url')}"
+                # request.GET.get('back_url')
             )
         }
     )

@@ -101,5 +101,8 @@ urlpatterns = ([
         name='update_grades'
     ),
 
-    path('collection/<slug:slug>/preview/', preview_collection, name='collection-preview'),
+#     path('collection/<slug:slug>/preview/', preview_collection, name='collection-preview'),
+# ], 'module')
+# Rakesh Modifications
+path('collection/<slug:slug>/preview/', preview_collection, name='collection-preview'),
 ], 'module')

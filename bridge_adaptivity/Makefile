@@ -57,4 +57,4 @@ migrate:
 	$(COMPOSE_BASE) run --entrypoint "" bridge python3 manage.py migrate
 
 test-selenium: docker-build
-	docker-compose -f docker-compose.yml -f docker-compose_local.yml -f docker-compose-selenium.yml run tests-functional
+	$(COMPOSE_BASE) -f docker-compose_local.yml -f docker-compose-selenium.yml run tests-functional

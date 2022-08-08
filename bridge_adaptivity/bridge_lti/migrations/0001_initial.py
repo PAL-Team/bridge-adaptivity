@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('lti_metadata', models.CharField(blank=True, max_length=255, null=True)),
                 ('host_url', models.URLField(max_length=255, null=True)),
                 ('is_active', models.BooleanField(default=False, help_text='Are its sources available for Instructors?')),
-                ('source_type', models.CharField(choices=[('base', 'Base Source'), ('edx', 'edX Source'), ('dart', 'Dart Source')], default='edx', max_length=100)),
+                ('source_type', models.CharField(choices=[('base', 'Base Source'), ('edx', 'edX Source'), ('dart', 'Dart Source'),('other', 'Other Source')], default='edx', max_length=100)),
                 ('available_in_groups', models.ManyToManyField(related_name='group_source', to='auth.Group', verbose_name='source in groups')),
                 ('o_auth_client', models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, to='api.OAuthClient')),
             ],
